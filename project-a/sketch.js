@@ -1,9 +1,11 @@
 let t = 0;
+let s = 20;
 let panic = 0;
 let starve = 1;
-
-let creatureX, creatureY;
-let s = 20;
+let foodx, foody;
+let food1x, food1y;
+let food2x, food2y;
+let creaturex, creaturey;
 
 function setup() {
   let canvas = createCanvas(800, 500);
@@ -11,139 +13,188 @@ function setup() {
   colorMode(HSB, 100, 100, 100, 100);
   rectMode(CENTER);
   noStroke();
-
-  creatureX = width / 2;
-  creatureY = height / 2;
+  creaturex = width / 2;
+  creaturey = height / 2;
+  spawnfood();
 }
 
 function draw() {
-  updatePanic();
-  drawBackground();
-  mousemovement();
-
+  
   let hue = lerp(40, 0, panic);
-
-  drawBar(hue);
+  let bghue = lerp(80, 0, panic);
+  updatepanic();
+  drawbg(hue, bghue);
+  movecell();
+  drawfood();
+  updatefood();
 
   push();
   let shake = panic * 5;
-  let shakeX = map(noise(frameCount * 0.2), 0, 1, -shake, shake);
-  let shakeY = map(noise(frameCount * 0.2 + 1000), 0, 1, -shake, shake);
-
-  translate(creatureX + shakeX, creatureY + shakeY);
+  let shakex = map(noise(frameCount * 0.2), 0, 1, -shake, shake);
+  let shakey = map(noise(frameCount * 0.2 + 1000), 0, 1, -shake, shake);
+  translate(creaturex + shakex, creaturey + shakey);
   scale(0.7);
-  drawCreature(hue);
+  drawcell(hue);
   pop();
+  
+  outercircle(hue);
+  drawbar(hue);
 }
 
-function updatePanic() {
-  panic += 0.001;
-  if (mouseIsPressed) {
-    panic -= 0.004;
+function updatefood() {
+  if (dist(creaturex, creaturey, foodx, foody) < 40) {
+    panic -= 0.2;
+    foodx = random(40, width - 40);
+    foody = random(80, height - 40);
   }
+  if (dist(creaturex, creaturey, food1x, food1y) < 40) {
+    panic -= 0.2;
+    food1x = random(40, width - 40);
+    food1y = random(80, height - 40);
+  }
+  if (dist(creaturex, creaturey, food2x, food2y) < 40) {
+    panic -= 0.2;
+    food2x = random(40, width - 40);
+    food2y = random(80, height - 40);
+  }
+}
 
+function spawnfood() {
+  foodx = random(40, width - 40);
+  foody = random(80, height - 40);
+  food1x = random(40, width - 40);
+  food1y = random(80, height - 40);
+  food2x = random(40, width - 40);
+  food2y = random(80, height - 40);
+}
+
+function drawfood() {
+  let pulse = sin(frameCount * 0.1) * 3;
+
+  fill(80, 80, 100);
+  ellipse(foodx, foody, 14 + pulse);
+  fill(80, 80, 100, 30);
+  ellipse(foodx, foody, 24 + pulse);
+  fill(80, 80, 100);
+  ellipse(food1x, food1y, 14 + pulse);
+  fill(80, 80, 100, 30);
+  ellipse(food1x, food1y, 24 + pulse);
+  fill(80, 80, 100);
+  ellipse(food2x, food2y, 14 + pulse);
+  fill(80, 80, 100, 30);
+  ellipse(food2x, food2y, 24 + pulse);
+}
+
+function updatepanic() {
+  panic += 0.001;
   panic = constrain(panic, 0, 1);
   starve = 1 - panic;
 }
 
-function drawBackground() {
-  let c = map(cos(frameCount * 0.01), -1, 1, 60, 80);
-  background(c, 100, 15);
-
+function drawbg(h, b) {
+  background(h, 25, 70);
+  push();
+  translate(width / 2, height / 2);
+  rotate(frameCount * 0.001);
+  translate(-width / 2, -height / 2);
   for (let i = s / 2; i <= width; i += s) {
-    for (let j = s / 2; j <= height; j += s) {
-
+    for (let j = s / 2; j <= width; j += s) {
       let off = map(noise(0.01 * frameCount + i * j), 0, 1, 0, s);
-
       if (noise(i * j) < 0.18) {
+
         let jitter = 1;
+
         if (random() < 0.1) {
           jitter = random(0.8, 1.2);
         }
 
-        fill(c, 30, 100, 12);
+        fill(h, 30, 50, 20);
         ellipse(i, j, off * jitter);
 
-        fill(c, 30, 100, 25);
+        fill(h, 30, 50, 40);
         ellipse(i, j, off * 0.7 * jitter);
 
-        fill(c, 40, 100, 80);
+        fill(h, 40, 50, 80);
         ellipse(i, j, off * 0.5);
       }
     }
   }
+  pop();
+}
 
-  for (let angle = 0; angle < 2 * PI; angle += PI / 12) {
-    let x = width / 2 + 490 * cos(angle);
-    let y = height / 2 + 300 * sin(angle);
-
-    let d = constrain(dist(creatureX, creatureY, x, y), 0, height * width);
-
-    let size =
-      map(sin(frameCount * 0.02), -1, 1, 0.7, 1) *
-      map(d * d, 0, height * width, 200, 400);
-
-    fill(c, 90, 10, 90);
-    ellipse(x, y, size);
-
-    fill(c, 90, 10, 20);
-    ellipse(x, y, size * 1.5);
+function outercircle(b){
+  for (let angle = 0; angle < 2 * PI; angle += PI / 36) {
+    let x = width / 2 + 560 * cos(angle);
+    let y = height / 2 + 350 * sin(angle);
+    let d = constrain(dist(creaturex, creaturey, x, y), 0, height * width);
+    let size = map(sin(frameCount * 0.02), -1, 1, 0.7, 0.8) * map(d * d, 0, height * width, 100, 500);
+    fill(b, 50, 10, 50);
+    ellipse(x, y, size * 1.3);
+    fill(b, 50, 10, 100);
+    ellipse(x, y, size * 1.1);
   }
 }
 
-function mousemovement() {
+function movecell() {
   let speed = 0.03 + panic * 0.05;
-
   if (mouseIsPressed) {
-    creatureX = lerp(creatureX, mouseX, speed);
-    creatureY = lerp(creatureY, mouseY, speed);
+    creaturex = lerp(creaturex, mouseX, speed);
+    creaturey = lerp(creaturey, mouseY, speed);
   } else {
     let range = 40 + panic * 120;
-    let moveX = creatureX + map(noise(t), 0, 1, -range, range);
-    let moveY = creatureY + map(noise(t + 1000), 0, 1, -range, range);
+    let movex = creaturex + map(noise(t), 0, 1, -range, range);
+    let movey = creaturey + map(noise(t + 1000), 0, 1, -range, range);
     t += 0.005 + panic * 0.04;
-
-    creatureX = lerp(creatureX, moveX, speed);
-    creatureY = lerp(creatureY, moveY, speed);
+    creaturex = lerp(creaturex, movex, speed);
+    creaturey = lerp(creaturey, movey, speed);
   }
-
-  creatureX = constrain(creatureX, 20, width - 20);
-  creatureY = constrain(creatureY, 60, height - 20);
+  creaturex = constrain(creaturex, 20, width - 20);
+  creaturey = constrain(creaturey, 60, height - 20);
 }
 
-function drawCreature(hue) {
+function drawcell(hue) {
   drawbody(hue, 1, 30);
   drawbody(hue, 0.5, 30);
-  draweye(hue);
+  nucleus(hue);
 }
 
 function drawbody(h, size, transparency) {
-  fill(h, 80, 90, transparency);
-
-  let breath = sin(frameCount * 0.02) * (8 + panic * 25);
+  fill(h, 100, 70, transparency);
+  let breathspeed;
+  if (panic > 0.75) {
+    breathspeed = 0.4;
+  } 
+  else if (panic > 0.5) {
+    breathspeed = 0.2;
+  } 
+  else if (panic > 0.25) {
+    breathspeed = 0.1;
+  } 
+  else {
+    breathspeed = 0.05;
+  }
+  let breath = sin(frameCount * breathspeed) * 10;
 
   beginShape();
   for (let a = 0; a < TWO_PI; a += PI / 48) {
     let n = noise(a, frameCount * 0.02) * 20;
-    let radius = (30 + breath + n + panic * 40) * size;
+    let radius = (40 + breath + n) * size;
     vertex(cos(a) * radius, sin(a) * radius);
   }
-  endShape(CLOSE);
+  endShape();
 }
 
-function draweye(h) {
+function nucleus(h) {
   let shake = panic * 10;
-  let pupilx = map(noise(frameCount * 0.12), 0, 1, -shake, shake);
-  let pupily = map(noise(frameCount * 0.1), 0, 1, -shake, shake);
-
+  let nucleusx = map(noise(frameCount * 0.12), 0, 1, -shake, shake);
+  let nucleusy = map(noise(frameCount * 0.1), 0, 1, -shake, shake);
   fill(h, 80, 90);
-  ellipse(pupilx, pupily, 20);
+  ellipse(nucleusx, nucleusy, 20);
 }
 
-function drawBar(h) {
-  fill(h, 80, 30);
+function drawbar(h) {
+  fill(h, 80, 70);
   rect(width / 2, 20, 200, 20);
-
-  fill(h, 80, 90, 100 * starve);
+  fill(h, 80, 100);
   rect(width / 2, 20, 190 * starve, 12);
 }
