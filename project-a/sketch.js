@@ -19,7 +19,6 @@ function setup() {
 }
 
 function draw() {
-  
   let hue = lerp(40, 0, panic);
   let bghue = lerp(80, 0, panic);
   updatepanic();
@@ -101,19 +100,14 @@ function drawbg(h, b) {
     for (let j = s / 2; j <= width; j += s) {
       let off = map(noise(0.01 * frameCount + i * j), 0, 1, 0, s);
       if (noise(i * j) < 0.18) {
-
         let jitter = 1;
-
         if (random() < 0.1) {
           jitter = random(0.8, 1.2);
         }
-
         fill(h, 30, 50, 20);
         ellipse(i, j, off * jitter);
-
         fill(h, 30, 50, 40);
         ellipse(i, j, off * 0.7 * jitter);
-
         fill(h, 40, 50, 80);
         ellipse(i, j, off * 0.5);
       }
@@ -126,10 +120,10 @@ function outercircle(b){
   for (let angle = 0; angle < 2 * PI; angle += PI / 36) {
     let x = width / 2 + 560 * cos(angle);
     let y = height / 2 + 350 * sin(angle);
-    let d = constrain(dist(creaturex, creaturey, x, y), 0, height * width);
+    let d = constrain(dist(mouseX, mouseY, x, y), 0, height * width);
     let size = map(sin(frameCount * 0.02), -1, 1, 0.7, 0.8) * map(d * d, 0, height * width, 100, 500);
     fill(b, 50, 10, 50);
-    ellipse(x, y, size * 1.3);
+    ellipse(x, y, size * 1.2);
     fill(b, 50, 10, 100);
     ellipse(x, y, size * 1.1);
   }
@@ -174,7 +168,6 @@ function drawbody(h, size, transparency) {
     breathspeed = 0.05;
   }
   let breath = sin(frameCount * breathspeed) * 10;
-
   beginShape();
   for (let a = 0; a < TWO_PI; a += PI / 48) {
     let n = noise(a, frameCount * 0.02) * 20;
