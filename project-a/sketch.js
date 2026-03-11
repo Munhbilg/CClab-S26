@@ -43,17 +43,17 @@ function draw() {
 
 function updatefood(){
   if (dist(creaturex, creaturey, foodx, foody) < 40) {
-    panic -= 0.2;
+    panic -= 0.4;
     foodx = random(40, width - 40);
     foody = random(80, height - 40);
   }
   if (dist(creaturex, creaturey, food1x, food1y) < 40) {
-    panic -= 0.2;
+    panic -= 0.4;
     food1x = random(40, width - 40);
     food1y = random(80, height - 40);
   }
   if (dist(creaturex, creaturey, food2x, food2y) < 40) {
-    panic -= 0.2;
+    panic -= 0.4;
     food2x = random(40, width - 40);
     food2y = random(80, height - 40);
   }
@@ -151,7 +151,7 @@ function movecell(){
     let movex = creaturex + map(noise(t), 0, 1, -range, range);
     let movey = creaturey + map(noise(t + 1000), 0, 1, -range, range);
     t += 0.01 + panic * 0.03;
-    if (starve < 0.15) {
+    if (starve < 0.1) {
       let targetx = foodx;
       let targety = foody;
       let d0 = dist(creaturex, creaturey, foodx, foody);
@@ -179,7 +179,6 @@ function movecell(){
 }
 
 function drawcell(hue) {
-
   drawbody(hue, 1, 30);
   drawbody(hue, 0.5, 30);
   nucleus(hue);
