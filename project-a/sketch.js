@@ -30,7 +30,7 @@ function draw() {
   push();
   let shake = panic * 5;
   let shakex = map(noise(frameCount * 0.2), 0, 1, -shake, shake);
-  let shakey = map(noise(frameCount * 0.2 + 1000), 0, 1, -shake, shake);
+  let shakey = map(noise(frameCount * 0.2 + 100), 0, 1, -shake, shake);
   translate(creaturex + shakex, creaturey + shakey);
   scale(0.7);
   drawcell(hue);
@@ -101,20 +101,17 @@ function drawbg(h, b){
   rotate(frameCount * 0.001);
   translate(-width / 2, -height / 2);
   for (let i = s / 2; i <= width; i += s) {
-    for (let j = s / 2; j <= width; j += s) {
+    for (let j = s / 2; j <= height - 40; j += s) {
       let off = map(noise(0.01 * frameCount + i * j), 0, 1, 0, s);
       if (noise(i * j) < 0.18) {
         let jitter = 1;
         if (random() < 0.1) {
           jitter = random(0.8, 1.2);
         }
-
         fill(h, 30, 50, 20);
         ellipse(i, j, off * jitter);
-
         fill(h, 30, 50, 40);
         ellipse(i, j, off * 0.7 * jitter);
-
         fill(h, 40, 50, 80);
         ellipse(i, j, off * 0.5);
       }
@@ -141,15 +138,15 @@ function outercircle(b){
 }
 
 function movecell(){
-  let speed = 0.04 + panic * 0.04;
+  let speed = 0.04 + panic * 0.1;
   if (mouseIsPressed) {
     creaturex = lerp(creaturex, mouseX, speed);
     creaturey = lerp(creaturey, mouseY, speed);
   } 
   else {
     let range = 40
-    let movex = creaturex + map(noise(t), 0, 1, -range, range);
-    let movey = creaturey + map(noise(t + 1000), 0, 1, -range, range);
+    let movex = creaturex + (noise(t) - 0.5) * 2 * range;
+    let movey = creaturey + (noise(t + 100) - 0.5) * 2 * range;
     t += 0.01 + panic * 0.03;
     if (starve < 0.1) {
       let targetx = foodx;
@@ -169,8 +166,8 @@ function movecell(){
       movex = lerp(movex, targetx, 0.2);
       movey = lerp(movey, targety, 0.2);
     }
-    creaturex = lerp(creaturex, movex, 0.05);
-    creaturey = lerp(creaturey, movey, 0.05);
+    creaturex = lerp(creaturex, movex, 0.1);
+    creaturey = lerp(creaturey, movey, 0.1);
   }
   if (creaturex < 40) creaturex += 2;
   if (creaturex > width - 40) creaturex -= 2;
@@ -187,17 +184,17 @@ function drawcell(hue) {
 function drawbody(h, size, transparency){
   fill(h, 100, 70, transparency);
   let breathspeed;
-  if (panic > 0.75) {
+  if (panic > 0.9) {
     breathspeed = 0.4;
   }
-  else if (panic > 0.5) {
-    breathspeed = 0.2;
+  else if (panic > 0.6) {
+    breathspeed = 0.15;
   } 
-  else if (panic > 0.25) {
-    breathspeed = 0.1;
+  else if (panic > 0.3) {
+    breathspeed = 0.05;
   } 
   else {
-    breathspeed = 0.05;
+    breathspeed = 0.01;
   }
   let breath = sin(frameCount * breathspeed) * 10;
 
