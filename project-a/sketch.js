@@ -56,6 +56,7 @@ function updatefood() {
     food2x = random(40, width - 40);
     food2y = random(80, height - 40);
   }
+
 }
 
 function spawnfood() {
@@ -104,10 +105,13 @@ function drawbg(h, b) {
         if (random() < 0.1) {
           jitter = random(0.8, 1.2);
         }
+
         fill(h, 30, 50, 20);
         ellipse(i, j, off * jitter);
+
         fill(h, 30, 50, 40);
         ellipse(i, j, off * 0.7 * jitter);
+
         fill(h, 40, 50, 80);
         ellipse(i, j, off * 0.5);
       }
@@ -117,11 +121,15 @@ function drawbg(h, b) {
 }
 
 function outercircle(b){
+  let mx = constrain(mouseX, 0, width);
+  let my = constrain(mouseY, 0, height);
   for (let angle = 0; angle < 2 * PI; angle += PI / 36) {
-    let x = width / 2 + 560 * cos(angle);
+    let x = width / 2 + 500 * cos(angle);
     let y = height / 2 + 350 * sin(angle);
-    let d = constrain(dist(mouseX, mouseY, x, y), 0, height * width);
-    let size = map(sin(frameCount * 0.02), -1, 1, 0.7, 0.8) * map(d * d, 0, height * width, 100, 500);
+    let d = constrain(dist(mx, my, x, y), 0, height * width);
+    let size =
+      map(sin(frameCount * 0.02), -1, 1, 0.7, 0.8) *
+      map(d * d, 0, height * width, 100, 400);
     fill(b, 50, 10, 50);
     ellipse(x, y, size * 1.2);
     fill(b, 50, 10, 100);
@@ -147,6 +155,7 @@ function movecell() {
 }
 
 function drawcell(hue) {
+
   drawbody(hue, 1, 30);
   drawbody(hue, 0.5, 30);
   nucleus(hue);
@@ -168,11 +177,13 @@ function drawbody(h, size, transparency) {
     breathspeed = 0.05;
   }
   let breath = sin(frameCount * breathspeed) * 10;
+
   beginShape();
   for (let a = 0; a < TWO_PI; a += PI / 48) {
     let n = noise(a, frameCount * 0.02) * 20;
     let radius = (40 + breath + n) * size;
     vertex(cos(a) * radius, sin(a) * radius);
+
   }
   endShape();
 }
@@ -190,4 +201,5 @@ function drawbar(h) {
   rect(width / 2, 20, 200, 20);
   fill(h, 80, 100);
   rect(width / 2, 20, 190 * starve, 12);
+
 }
