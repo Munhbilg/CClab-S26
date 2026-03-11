@@ -7,7 +7,7 @@ let food1x, food1y;
 let food2x, food2y;
 let creaturex, creaturey;
 
-function setup() {
+function setup(){
   let canvas = createCanvas(800, 500);
   canvas.parent("p5-canvas-container");
   colorMode(HSB, 100, 100, 100, 100);
@@ -40,7 +40,8 @@ function draw() {
   drawbar(hue);
 }
 
-function updatefood() {
+
+function updatefood(){
   if (dist(creaturex, creaturey, foodx, foody) < 40) {
     panic -= 0.2;
     foodx = random(40, width - 40);
@@ -56,10 +57,10 @@ function updatefood() {
     food2x = random(40, width - 40);
     food2y = random(80, height - 40);
   }
-
 }
 
-function spawnfood() {
+function spawnfood(){
+
   foodx = random(40, width - 40);
   foody = random(80, height - 40);
   food1x = random(40, width - 40);
@@ -68,7 +69,7 @@ function spawnfood() {
   food2y = random(80, height - 40);
 }
 
-function drawfood() {
+function drawfood(){
   let pulse = sin(frameCount * 0.1) * 3;
 
   fill(80, 80, 100);
@@ -85,13 +86,15 @@ function drawfood() {
   ellipse(food2x, food2y, 24 + pulse);
 }
 
-function updatepanic() {
+function updatepanic(){
+
   panic += 0.001;
   panic = constrain(panic, 0, 1);
   starve = 1 - panic;
 }
 
-function drawbg(h, b) {
+function drawbg(h, b){
+
   background(h, 25, 70);
   push();
   translate(width / 2, height / 2);
@@ -137,21 +140,42 @@ function outercircle(b){
   }
 }
 
-function movecell() {
-  let speed = 0.03 + panic * 0.05;
+function movecell(){
+  let speed = 0.04 + panic * 0.04;
   if (mouseIsPressed) {
     creaturex = lerp(creaturex, mouseX, speed);
     creaturey = lerp(creaturey, mouseY, speed);
-  } else {
-    let range = 40 + panic * 120;
+  } 
+  else {
+    let range = 40
     let movex = creaturex + map(noise(t), 0, 1, -range, range);
     let movey = creaturey + map(noise(t + 1000), 0, 1, -range, range);
-    t += 0.005 + panic * 0.04;
-    creaturex = lerp(creaturex, movex, speed);
-    creaturey = lerp(creaturey, movey, speed);
+    t += 0.01 + panic * 0.03;
+    if (starve < 0.15) {
+      let targetx = foodx;
+      let targety = foody;
+      let d0 = dist(creaturex, creaturey, foodx, foody);
+      let d1 = dist(creaturex, creaturey, food1x, food1y);
+      let d2 = dist(creaturex, creaturey, food2x, food2y);
+
+      if (d1 < d0 && d1 < d2) {
+        targetx = food1x;
+        targety = food1y;
+      }
+      else if (d2 < d0 && d2 < d1) {
+        targetx = food2x;
+        targety = food2y;
+      }
+      movex = lerp(movex, targetx, 0.2);
+      movey = lerp(movey, targety, 0.2);
+    }
+    creaturex = lerp(creaturex, movex, 0.05);
+    creaturey = lerp(creaturey, movey, 0.05);
   }
-  creaturex = constrain(creaturex, 20, width - 20);
-  creaturey = constrain(creaturey, 60, height - 20);
+  if (creaturex < 40) creaturex += 2;
+  if (creaturex > width - 40) creaturex -= 2;
+  if (creaturey < 80) creaturey += 2;
+  if (creaturey > height - 40) creaturey -= 2;
 }
 
 function drawcell(hue) {
@@ -161,12 +185,12 @@ function drawcell(hue) {
   nucleus(hue);
 }
 
-function drawbody(h, size, transparency) {
+function drawbody(h, size, transparency){
   fill(h, 100, 70, transparency);
   let breathspeed;
   if (panic > 0.75) {
     breathspeed = 0.4;
-  } 
+  }
   else if (panic > 0.5) {
     breathspeed = 0.2;
   } 
@@ -188,7 +212,7 @@ function drawbody(h, size, transparency) {
   endShape();
 }
 
-function nucleus(h) {
+function nucleus(h){
   let shake = panic * 10;
   let nucleusx = map(noise(frameCount * 0.12), 0, 1, -shake, shake);
   let nucleusy = map(noise(frameCount * 0.1), 0, 1, -shake, shake);
@@ -196,10 +220,9 @@ function nucleus(h) {
   ellipse(nucleusx, nucleusy, 20);
 }
 
-function drawbar(h) {
+function drawbar(h){
   fill(h, 80, 70);
   rect(width / 2, 20, 200, 20);
   fill(h, 80, 100);
   rect(width / 2, 20, 190 * starve, 12);
-
 }
