@@ -10,7 +10,7 @@ let buty;
 let catx = 0;
 let caty = 380;
 
-function preload() {
+function preload(){
   cat[0] = loadImage("assets/cat2.png");
   cat[1] = loadImage("assets/cat1.png");
   cat[2] = loadImage("assets/cat0.png");
@@ -24,14 +24,14 @@ function preload() {
   meow = loadSound("assets/meow.mp3");
 }
 
-function setup() {
+function setup(){
   createCanvas(800, 500);
   imageMode(CENTER);
   butx = random(width);
   buty = random(height - 200);
 }
 
-function draw() {
+function draw(){
   background(220);
   image(bg, width/2, height/2, width, height);
 
@@ -41,7 +41,7 @@ function draw() {
     dir = mouseX - butx;
     butx = lerp(butx, mouseX, 0.1);
     buty = lerp(buty, mouseY, 0.1);
-  } else {
+  }else{
     let move = cos(frameCount / 30);
     dir = move;
     butx = butx + move * 2;
@@ -51,7 +51,7 @@ function draw() {
 
   push();
   translate(butx, buty);
-  if (dir < 0) {
+  if (dir < 0){
     scale(-1, 1);
   }
   image(but[butframe], 
@@ -68,7 +68,7 @@ function draw() {
 
   push();
   translate(catx, caty + sin(frameCount / 20) * 1.5);
-  if (catdir < 0) {
+  if (catdir < 0){
     scale(-1, 1);
   }
   image(cat[catframe], 
@@ -81,7 +81,7 @@ function draw() {
   
   //Eat butterfly
   let eat = dist(catx, caty, butx, buty);
-  if (eat < 40) {
+  if (eat < 40){
     meow.play();
     butx = random(width);
     buty = random(height - 200);
@@ -91,7 +91,7 @@ function draw() {
   let zzzx = 250;
   let zzzy = 210 + sin(frameCount / 20) * 10;
   let sleep = dist(butx, buty, zzzx, zzzy);
-  if (sleep > 80) {
+  if (sleep > 80){
     zzzframe = floor(frameCount / 12) % zzz.length;
     image(zzz[zzzframe], zzzx, zzzy, zzz[0].width * 0.1, zzz[0].height * 0.1);
   }
