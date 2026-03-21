@@ -21,6 +21,7 @@ function preload() {
   but[1] = loadImage("assets/but1.png");
   but[2] = loadImage("assets/but2.png");
   bg = loadImage("assets/Background.png");
+  meow = loadSound("assets/meow.mp3");
 }
 
 function setup() {
@@ -81,6 +82,7 @@ function draw() {
   //Eat butterfly
   let eat = dist(catx, caty, butx, buty);
   if (eat < 40) {
+    meow.play();
     butx = random(width);
     buty = random(height - 200);
   }
