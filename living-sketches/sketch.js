@@ -39,26 +39,29 @@ function draw(){
   let dir;
   if (mouseIsPressed) {
     dir = mouseX - butx;
-    butx = lerp(butx, mouseX, 0.1);
-    buty = lerp(buty, mouseY, 0.1);
+    butx = lerp(butx, mouseX, 0.08);
+    buty = lerp(buty, mouseY, 0.08);
   }else{
-    let move = cos(frameCount / 30);
-    dir = move;
-    butx = butx + move * 2;
-    buty = buty + sin(frameCount / 30) * 2;
+    let nx = map(noise(frameCount * 0.01), 0, 1, 0, width);
+    let ny = map(noise(1000 + frameCount * 0.01), 0, 1, 0, height - 150);
+    dir = nx - butx;
+    butx = lerp(butx, nx, 0.02);
+    buty = lerp(buty, ny, 0.02);
   }
-  butframe = floor(map(sin(frameCount / 5), -1, 1, 0, but.length));
+  butframe = floor(map(sin(frameCount / 4), -1, 1, 0, but.length));
 
   push();
   translate(butx, buty);
   if (dir < 0){
     scale(-1, 1);
   }
-  image(but[butframe], 
-        0, 
-        0, 
-        but[0].width * 0.12, 
-        but[0].height * 0.12);
+  image(
+    but[butframe],
+    0,
+    0,
+    but[0].width * 0.12,
+    but[0].height * 0.12
+  );
   pop();
 
   //Cat movement
