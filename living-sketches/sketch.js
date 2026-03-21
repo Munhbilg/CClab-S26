@@ -11,16 +11,16 @@ let catx = 0;
 let caty = 380;
 
 function preload() {
-  cat[0] = loadImage("living-sketches/assets/cat2.png");
-  cat[1] = loadImage("living-sketches/assets/cat1.png");
-  cat[2] = loadImage("living-sketches/assets/cat0.png");
-  zzz[0] = loadImage("living-sketches/assets/zzz0.png");
-  zzz[1] = loadImage("living-sketches/assets/zzz1.png");
-  zzz[2] = loadImage("living-sketches/assets/zzz2.png");
-  but[0] = loadImage("living-sketches/assets/but0.png");
-  but[1] = loadImage("living-sketches/assets/but1.png");
-  but[2] = loadImage("living-sketches/assets/but2.png");
-  bg = loadImage("living-sketches/assets/Background.png");
+  cat[0] = loadImage("assets/cat2.png");
+  cat[1] = loadImage("assets/cat1.png");
+  cat[2] = loadImage("assets/cat0.png");
+  zzz[0] = loadImage("assets/zzz0.png");
+  zzz[1] = loadImage("assets/zzz1.png");
+  zzz[2] = loadImage("assets/zzz2.png");
+  but[0] = loadImage("assets/but0.png");
+  but[1] = loadImage("assets/but1.png");
+  but[2] = loadImage("assets/but2.png");
+  bg = loadImage("assets/Background.png");
 }
 
 function setup() {
