@@ -18,7 +18,7 @@ function setup() {
   canvas.parent("p5-canvas-container");
 
   // ...except to adjust the dancer's name on the next line:
-  dancer = new YourNameDancer(width / 2, height / 2);
+  dancer = new RoboDancer(width / 2, height / 2);
 }
 
 function draw() {
@@ -32,7 +32,7 @@ function draw() {
 
 // You only code inside this class.
 // Start by giving the dancer your name, e.g. LeonDancer.
-class YourNameDancer {
+class RoboDancer {
   constructor(startX, startY) {
     this.x = startX;
     this.y = startY;
@@ -178,8 +178,8 @@ class YourNameDancer {
     noFill();
     rectMode(CORNER);
     stroke(255, 0, 0);
-    line(-5, 0, 5, 0);
-    line(0, -5, 0, 5);
+    //line(-5, 0, 5, 0);
+    //line(0, -5, 0, 5);
     stroke(255);
     rect(-100, -100, 200, 200);
     fill(255);
