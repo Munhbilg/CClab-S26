@@ -18,7 +18,9 @@ function setup() {
   canvas.parent("p5-canvas-container");
 
   // ...except to adjust the dancer's name on the next line:
-  dancer = new RoboDancer(width / 2, height / 2);
+  dancer = new RoboDancer(width / 2, height / 2 + 100);
+  dancer1 = new RoboDancer(width / 2 + 100, height / 2 + 100);
+  dancer2 = new RoboDancer(width / 2 - 100, height / 2 + 100);
 }
 
 function draw() {
@@ -28,6 +30,11 @@ function draw() {
 
   dancer.update();
   dancer.display();
+  dancer1.update();
+  dancer1.display();
+  dancer2.update();
+  dancer2.display();
+
 }
 
 // You only code inside this class.
@@ -43,12 +50,14 @@ class RoboDancer {
     this.colorr = 255;
     this.colorb = 0;
     this.colorw = 255;
+    this.headcolor = color(255, 0, 0);
   }
   update() {
-    // update properties here to achieve
-    // your dancer's desired moves and behaviour
+    if (mouseIsPressed) {
+      this.headcolor = color(random(255), random(255), random(255));
+    }
   }
-  display() {
+  display(){
     // the push and pop, along with the translate 
     // places your whole dancer object at this.x and this.y.
     // you may change its position on line 19 to see the effect.
@@ -112,8 +121,8 @@ class RoboDancer {
       translate(0, 30);
      }
     pop();
+    
     // body
-
     push();
     translate(0, 30);
     rotate(bodymove);
@@ -125,8 +134,9 @@ class RoboDancer {
 
     fill(this.color3);
     rect(0, -10, 15, 10);
-
     pop();
+
+    // head
     push();
     translate(headmove, move);
     fill(this.color3);
@@ -137,7 +147,7 @@ class RoboDancer {
     rect(0, -2.5, 40, 35);
     rect(0, -22, 5, 5);
 
-    fill(255, 0, 0);
+    fill(this.headcolor);
     ellipse(0, -28, 10, 10);
 
     // face
@@ -170,7 +180,7 @@ class RoboDancer {
     // it is using "this" because this function, too, 
     // is a part if your Dancer object.
     // comment it out or delete it eventually.
-    this.drawReferenceShapes()
+    //this.drawReferenceShapes()
 
     pop();
   }
@@ -187,8 +197,6 @@ class RoboDancer {
   }
 }
 
-
-
 /*
 GOAL:
 The goal is for you to write a class that produces a dancing being/creature/object/thing. In the next class, your dancer along with your peers' dancers will all dance in the same sketch that your instructor will put together. 
@@ -202,4 +210,4 @@ For this to work you need to follow one rule:
     - startY (currently the vertical center of the canvas)
   beside these, please don't add more parameters into the constructor function 
   - lastly, to make sure our dancers will harmonize once on the same canvas, please don't make your dancer bigger than 200x200 pixels. 
-*/
+*/ 
