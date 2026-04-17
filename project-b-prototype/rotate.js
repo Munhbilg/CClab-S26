@@ -97,10 +97,13 @@ class Rotate {
     if (correct < 0){
       correct += 360;
     }
-    if (-5 < correct - this.correctangle < 5 || -5 < correct - 360 < 5){
+    let diff = correct - this.correctangle;
+    if (diff < 0) diff += 360;
+    if (diff > 180) diff = 360 - diff;
+    if (diff < 5) {
       this.solved = true;
       this.message = "";
-    }else{
+    } else {
       this.message = "Wrong. Try again";
       this.angle = random(0, 360);
     }
