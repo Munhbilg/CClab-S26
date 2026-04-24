@@ -33,7 +33,9 @@ class Slider{
     if (this.checkbutton) return;
     this.checkbutton = createButton("Check");
     this.checkbutton.position(width/2 - 25, height/2 + 120);
-    this.checkbutton.mousePressed(() => this.check());
+    this.checkbutton.mouseClicked(() => { 
+      this.check();
+    });
   }
 
   showButtons() {

@@ -5,26 +5,29 @@ class Rotate {
     this.correctangle = 0;
     this.solved = false;
     this.message = "";
-    this.movenoise = 0;
-    this.leftbutton = null;
-    this.rightbutton = null;
-    this.checkbutton = null;
+    this.vel = 0;
+    this.targetspeed = 0;
   }
 
   draw() {
     background(240);
     strokeWeight(1);
-    this.update();
+    if (!this.solved) {
+      this.vel = lerp(this.vel, this.targetspeed, 0.1);
+      this.angle += this.vel;
+    }
+
     this.display();
   }
-  
+
   setup() {
     imageMode(CENTER);
     rectMode(CENTER);
     this.angle = random(0, 360);
     this.solved = false;
     this.message = "";
-    this.movenoise = 0;
+    this.vel = 0;
+    this.targetspeed = 0;
     this.createButtons();
     this.hideButtons();
   }
@@ -36,9 +39,19 @@ class Rotate {
     this.leftbutton.position(width/2 - 80, height/2 + 120);
     this.checkbutton.position(width/2 - 25, height/2 + 120);
     this.rightbutton.position(width/2 + 55, height/2 + 120);
-    this.leftbutton.mousePressed(() => { if (!this.solved) this.angle -= 5; });
-    this.rightbutton.mousePressed(() => { if (!this.solved) this.angle += 5; });
-    this.checkbutton.mousePressed(() => { this.checkSolved(); });
+    this.leftbutton.mouseClicked(() => {
+      if (!this.solved) {
+        this.targetspeed = -3; 
+      }
+    });
+    this.rightbutton.mouseClicked(() => {
+      if (!this.solved) {
+        this.targetspeed = 3;
+      }
+    });
+    this.checkbutton.mouseClicked(() => {
+      this.check();
+    });
   }
 
   showButtons() {
@@ -57,14 +70,6 @@ class Rotate {
     }
   }
 
-  update() {
-    if (!this.solved) {
-      let drift = map(noise(this.movenoise), 0, 1, -2, 2);
-      this.angle += drift;
-      this.movenoise += 0.01;
-    }
-  }
-
   display() {
     stroke(100);
     fill(255);
@@ -79,6 +84,7 @@ class Rotate {
     rotate(radians(this.angle));
     image(this.img, 0, 0, 180, 180);
     pop();
+
     fill(0);
     textSize(18);
     textAlign(CENTER);
@@ -92,26 +98,28 @@ class Rotate {
     }
   }
 
-  checkSolved() {
+  check() {
     let correct = this.angle % 360;
-    if (correct < 0){
-      correct += 360;
-    }
-    let diff = correct - this.correctangle;
-    if (diff < 0) diff += 360;
+    if (correct < 0) correct += 360;
+
+    let diff = abs(correct - this.correctangle);
     if (diff > 180) diff = 360 - diff;
-    if (diff < 5) {
+
+    if (diff < 8) {
       this.solved = true;
       this.message = "";
+      this.targetspeed = 0;
     } else {
       this.message = "Wrong. Try again";
       this.angle = random(0, 360);
+      this.targetspeed = 0;
     }
   }
 
-  reset(){
+  reset() {
     this.solved = false;
     this.angle = random(0, 360);
+    this.targetspeed = 0;
     this.message = "";
   }
 }
