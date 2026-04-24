@@ -8,7 +8,6 @@ class Slider{
     this.goalx = 0;
     this.solved = false;
     this.message = "";
-    this.checkbutton = null;
   }
 
   setup() {
