@@ -1,17 +1,16 @@
-class Slider{
-  constructor(){
+class Slider {
+  constructor() {
     this.sliderwidth = 220;
     this.x = 0;
-    this.targetx = 0;
-    this.goalx = 0;
+    this.targetx = 0; 
+    this.goalx = 0;  
     this.solved = false;
-
     this.hold = 0;
-    this.required = 180;
+    this.required = 180;  //frames needed to solve
   }
 
-  setup(){
-    let left = width/2 - this.sliderwidth/2;
+  setup() {
+    let left = width / 2 - this.sliderwidth / 2 + 5;
     this.x = left;
     this.targetx = left;
     this.hold = 0;
@@ -28,19 +27,26 @@ class Slider{
     this.display();
   }
 
-  update(){
-    let left = width/2 - this.sliderwidth/2;
-    let right = width/2 + this.sliderwidth/2;
-    let cy = height/2;
+  update() {
+    let left = width / 2 - this.sliderwidth / 2 + 5;
+    let right = width / 2 + this.sliderwidth / 2 - 5;
+    let cy = height / 2;
+    
+    //track mouse position on slider
     if (mouseY > cy + 80 && mouseY < cy + 120) {
       this.targetx = constrain(mouseX, left, right);
     }
+
     this.x = lerp(this.x, this.targetx, 0.2);
-    if (!this.solved){
-      this.goalx = width/2 + sin(frameCount * 0.01-150) * 100;
+    
+    // Update goal position if not solved
+    if (!this.solved) {
+      this.goalx = width / 2 + sin(frameCount * 0.01 - 150) * 100;
     }
-    if (!this.solved){
-      if (this.x > this.goalx - 10 && this.x < this.goalx + 10) {
+    
+    //check if on goal
+    if (!this.solved) {
+      if (this.x > this.goalx - 8 && this.x < this.goalx + 8) {
         this.hold++;
         if (this.hold >= this.required) this.solved = true;
       } else {
@@ -50,42 +56,34 @@ class Slider{
   }
 
   display() {
-    let cx = width/2;
-    let cy = height/2;
+    let cx = width / 2;
+    let cy = height / 2;
 
-    //box
+    //layout
     stroke(100);
     strokeWeight(1);
     fill(255);
-    rect(cx, cy, 360, 300);
+    rect(cx, cy, 360, 300, 4);
 
     //background
-    noStroke();
-    fill(235);
+    fill(200, 220, 255);
     rect(cx, cy - 20, 240, 80);
-
-    fill(210);
+    fill(255, 255, 200);
     rect(cx, cy + 30, 240, 40);
-
     fill(0);
-    ellipse(cx+70, cy, 15, 15);
-    rect(cx+70, cy+4, 15, 15)
+    ellipse(cx + 70, cy, 15, 15);
+    rect(cx + 70, cy + 4, 15, 15);
 
+    //animals
     textSize(18);
-    fill(200, 220, 255); // light blue background
-    rect(this.goalx - 9, cy + 3 - 9, 18, 18);
-    fill(0);
-    text("🐭", this.goalx, cy+3);
+    text("🐭", this.goalx, cy + 3);
     textSize(28);
-    fill(255, 200, 220); // light pink background
-    rect(this.x - 14, cy - 14, 28, 28);
-    fill(0);
     text("🐱", this.x, cy);
 
-    //slider
+    //slider track
     stroke(200);
     strokeWeight(20);
-    line(cx - this.sliderwidth/2, cy + 100, cx + this.sliderwidth/2, cy + 100);
+    line(cx - this.sliderwidth / 2 + 5, cy + 100, cx + this.sliderwidth / 2 - 5, cy + 100);
     noStroke();
     fill(150);
     ellipse(this.x, cy + 100, 20);
@@ -93,6 +91,7 @@ class Slider{
     fill(0);
     textSize(18);
     text("Catch the mouse for 3 seconds", cx, cy - 100);
+    
     textSize(26);
     if (this.solved) {
       text("Verified", cx, height - 40);
