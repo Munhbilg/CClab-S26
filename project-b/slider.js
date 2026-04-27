@@ -83,7 +83,7 @@ class Slider {
     //slider track
     stroke(200);
     strokeWeight(20);
-    line(cx - this.sliderwidth / 2 + 5, cy + 100, cx + this.sliderwidth / 2 - 5, cy + 100);
+    line(cx - this.sliderwidth / 2 + 7, cy + 100, cx + this.sliderwidth / 2 - 7, cy + 100);
     noStroke();
     fill(150);
     ellipse(this.x, cy + 100, 20);

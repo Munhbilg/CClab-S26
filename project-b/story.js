@@ -1,5 +1,5 @@
 //Story section after the captchas are complete
-class Story {
+class Story{
   constructor(){
     this.dialogue = [
       "Verification complete.",
@@ -21,13 +21,13 @@ class Story {
     this.ended = false;
     this.choice = 0; //0: none, 1: good, 2: bad
     this.outcome = "";
-    this.time = 0;
+    this.captchatime = 0;
   }
 
-  start(){
+  start(captchatimer){
     this.index = 0;
     this.line = "";
-    this.time = frameCount;
+    this.captchatime = captchatimer;
     this.running = true;
     this.choosing = false;
     this.ended = false;
@@ -50,7 +50,7 @@ class Story {
     } else {
       this.line = this.dialogue[this.index];
       if (this.index == 7){
-        let elapsed = frameCount - this.time;
+        let elapsed = frameCount - this.captchatime;
         let seconds = floor(elapsed / 60);
         let minutes = floor(seconds / 60);
         seconds = seconds % 60;

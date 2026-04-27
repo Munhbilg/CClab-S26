@@ -1,6 +1,7 @@
 let captchas = [];
 let current = 0;
 let currentstate = "captchas";
+let captchatimer = 0;
 let rotateimg;
 let sliderimg;
 let story;
@@ -13,6 +14,7 @@ function preload(){
 function setup(){
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("p5-canvas-container");
+  captchatimer = frameCount;
   story = new Story();
 
   //setup captchas
@@ -82,7 +84,7 @@ function nextcaptcha(){
   } else {
     //all captchas solved. start story
     currentstate = "story";
-    story.start();
+    story.start(captchatimer);
   }
 }
 
