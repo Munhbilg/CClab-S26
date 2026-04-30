@@ -92,10 +92,15 @@ function nextcaptcha(){
 function restartcaptchas(){
   current = 0;
   currentstate = "captchas";
-  captchas.forEach(captcha => {
-    if (captcha.reset) captcha.reset();
-    if (captcha.setup) captcha.setup();
-  });
+  for (let i = 0; i < captchas.length; i++) {
+    let captcha = captchas[i];
+    if (captcha.reset){
+      captcha.reset();
+    }
+    if (captcha.setup){
+      captcha.setup();
+    }
+  }
   if (captchas[current] && captchas[current].showButtons){
     captchas[current].showButtons();
   }
