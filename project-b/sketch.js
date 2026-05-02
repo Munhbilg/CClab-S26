@@ -122,6 +122,7 @@ function nextcaptcha(){
 function restartcaptchas(){
   current = 0;
   currentstate = "captchas";
+  captchatimer = frameCount;
   for(let i = 0; i < captchas.length; i++){
     let captcha = captchas[i];
     if(captcha.reset){
