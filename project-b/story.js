@@ -17,7 +17,7 @@ class Story{
     this.index = 0;
     this.line = "";
     this.startframe = 0;
-    this.waitframe = 150; //frames to wait before next line
+    this.waitframe = 180; //frames to wait before next line
     this.running = false;
     this.choosing = false;
     this.ended = false;
@@ -91,12 +91,12 @@ class Story{
     if (this.running){
       //dialogue
       background(18, 22, 30);
-      
       //show camera for "You appear to be human"
       if(this.index == 4){
         image(this.video, width / 2, height * 0.45, 640, 480);
       }
-      
+
+      //dialogue
       fill(18, 22, 30);
       rect(width / 2, height * 0.45, width * 0.75, 32);
       fill(226);
