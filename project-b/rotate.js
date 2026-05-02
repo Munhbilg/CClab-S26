@@ -1,5 +1,5 @@
 class Rotate{
-  constructor(img){
+  constructor(img) {
     this.img = img; 
     this.angle = 0;
     this.correctangle = 0;
@@ -7,19 +7,6 @@ class Rotate{
     this.message = "";
     this.vel = 0;
     this.targetspeed = 0;
-  }
-
-  draw(){
-    background(240);
-    strokeWeight(1);
-    
-    //rotate image
-    if (!this.solved){
-      this.vel = lerp(this.vel, this.targetspeed, 0.1);
-      this.angle += this.vel;
-    }
-
-    this.display();
   }
 
   setup(){
@@ -30,60 +17,33 @@ class Rotate{
     this.message = "";
     this.vel = 0;
     this.targetspeed = 0;
-    this.createButtons();
-    this.hideButtons();
   }
-
-  //create and setup buttons
-  createButtons(){
-    this.leftbutton = createButton("⟲");
-    this.rightbutton = createButton("⟳");
-    this.checkbutton = createButton("Check");
-    
-    this.leftbutton.position(width / 2 + 55, height / 2 + 120);
-    this.checkbutton.position(width / 2 - 25, height / 2 + 120);
-    this.rightbutton.position(width / 2 - 80, height / 2 + 120);
-    
-    this.leftbutton.mouseClicked(() => {
-      if (!this.solved){
-        this.targetspeed = -1.5;
-      }
-    });
-    
-    this.rightbutton.mouseClicked(() => {
-      if (!this.solved){
-        this.targetspeed = 1.5;
-      }
-    });
-    
-    this.checkbutton.mouseClicked(() => {
-      this.check();
-    });
-  }
-
-  showButtons(){
-    if (this.leftbutton){
-      this.leftbutton.show();
-      this.rightbutton.show();
-      this.checkbutton.show();
+  draw() {
+    background(240);
+    if (!this.solved){
+      this.vel = lerp(this.vel, this.targetspeed, 0.1);
+      this.angle += this.vel;
     }
-  }
-
-  hideButtons(){
-    if (this.leftbutton){
-      this.leftbutton.hide();
-      this.rightbutton.hide();
-      this.checkbutton.hide();
-    }
+    this.display();
   }
 
   display(){
     stroke(100);
     fill(255);
     rect(width / 2, height / 2, 360, 360, 4);
+
+    //buttons
     noStroke();
-    fill(100);
-    ellipse(width / 2, height / 2, 182, 182);
+    fill(220);
+    rect(width/2 - 100, height/2 + 130, 60, 40, 5);
+    rect(width/2 + 100, height/2 + 130, 60, 40, 5);
+    rect(width/2, height/2 + 130, 100, 40, 5);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(18);
+    text("⟲", width/2 - 100, height/2 + 130);
+    text("⟳", width/2 + 100, height/2 + 130);
+    text("Check", width/2, height/2 + 130);
 
     //image
     push();
@@ -96,19 +56,36 @@ class Rotate{
     fill(0);
     textSize(18);
     textAlign(CENTER);
-    text("Rotate the image upright", width / 2, height / 2 - 120);
+    text("Rotate the image upright", width / 2, height / 2 - 140);
 
     //status
-    textSize(27);
-    if (this.solved){
+    textSize(24);
+    if (this.solved) {
       text("Verified", width / 2, height - 40);
-    } 
-    else if (this.message !== ""){
+    } else if (this.message !== "") {
       text(this.message, width / 2, height - 40);
     }
   }
 
-  //check if image is correctly rotated
+  mousePressed(){
+    let lx = width/2 - 100;
+    let rx = width/2 + 100;
+    let cx = width/2;
+    let y = height/2 + 130;
+
+    if (!this.solved) {
+      if (dist(mouseX, mouseY, lx, y) < 40) {
+        this.targetspeed = -1.5;
+      }
+      else if (dist(mouseX, mouseY, rx, y) < 40) {
+        this.targetspeed = 1.5;
+      }
+      else if (dist(mouseX, mouseY, cx, y) < 50) {
+        this.check();
+      }
+    }
+  }
+
   check(){
     let correct = this.angle % 360;
     if (correct < 0){
@@ -118,14 +95,12 @@ class Rotate{
     if (diff > 180){
       diff = 360 - diff;
     }
-
-    //verify within range
     if (diff < 6){
       this.solved = true;
       this.message = "";
       this.targetspeed = 0;
     }
-    else{
+    else {
       this.message = "Wrong. Try again";
       this.angle = random(0, 360);
       this.targetspeed = 0;

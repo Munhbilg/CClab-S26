@@ -1,14 +1,19 @@
 class Checkbox{
-  constructor(){
+  constructor(slidesound){
+    this.slidesound = slidesound;
+
     this.boxx = 0;
     this.boxy = 0;
     this.velx = 0;
     this.vely = 0;
     this.accx = 0;
     this.accy = 0;
-    this.push = 0.05; //move when mouse is near
+    this.push = 0.05;
     this.ticked = false;
     this.solved = false;
+
+    //track if mouse is already near
+    this.sliding = false;
   }
 
   setup(){
@@ -27,15 +32,24 @@ class Checkbox{
   update(){
     let distm = dist(mouseX, mouseY, this.boxx - 150, this.boxy);
     
-    //move box away from mouse if close
-    if (distm < 60){
+    if(distm < 60){
       this.accx = (this.boxx - 150 - mouseX) * this.push;
       this.accy = (this.boxy - mouseY) * this.push;
       this.velx += this.accx;
       this.vely += this.accy;
+
+      //play once when entering range
+      if(!this.sliding && this.slidesound){
+        this.slidesound.play();
+      }
+
+      this.sliding = true;
+
+    }else{
+      this.sliding = false;
     }
 
-    //make it possible to click if fast enough
+    //motion
     this.velx *= 0.9;
     this.vely *= 0.9;
     this.boxx += this.velx;
@@ -54,7 +68,7 @@ class Checkbox{
     rect(this.boxx - 150, this.boxy, 30, 30, 4);
 
     //checkmark
-    if (this.ticked){
+    if(this.ticked){
       strokeWeight(4);
       line(this.boxx - 158, this.boxy, this.boxx - 152, this.boxy + 7);
       line(this.boxx - 152, this.boxy + 7, this.boxx - 142, this.boxy - 7);
@@ -74,7 +88,6 @@ class Checkbox{
     let midx = this.boxx - 150;
     let midy = this.boxy;
 
-    //check if click is within the square
     if(mouseX > midx - 15 && mouseX < midx + 15 && mouseY > midy - 15 && mouseY < midy + 15){
       this.ticked = !this.ticked;
     }
@@ -83,5 +96,6 @@ class Checkbox{
   reset(){
     this.ticked = false;
     this.solved = false;
+    this.sliding = false;
   }
 }

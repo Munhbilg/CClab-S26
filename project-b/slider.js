@@ -1,5 +1,5 @@
-class Slider {
-  constructor() {
+class Slider{
+  constructor(){
     this.sliderwidth = 220;
     this.x = 0;
     this.targetx = 0; 
@@ -9,7 +9,7 @@ class Slider {
     this.required = 180;  //frames needed to solve
   }
 
-  setup() {
+  setup(){
     let left = width / 2 - this.sliderwidth / 2 + 5;
     this.x = left;
     this.targetx = left;
@@ -17,45 +17,42 @@ class Slider {
     this.solved = false;
   }
 
-  reset() {
+  reset(){
     this.setup();
   }
 
-  draw() {
+  draw(){
     background(240);
     this.update();
     this.display();
   }
 
-  update() {
+  update(){
     let left = width / 2 - this.sliderwidth / 2 + 5;
     let right = width / 2 + this.sliderwidth / 2 - 5;
-    let cy = height / 2;
-    
-    //track mouse position on slider
-    if (mouseY > cy + 80 && mouseY < cy + 120) {
-      this.targetx = constrain(mouseX, left, right);
-    }
-
+    this.targetx = constrain(mouseX, left, right);
     this.x = lerp(this.x, this.targetx, 0.2);
     
     // Update goal position if not solved
-    if (!this.solved) {
+    if (!this.solved){
       this.goalx = width / 2 + sin(frameCount * 0.01 - 150) * 100;
     }
     
     //check if on goal
-    if (!this.solved) {
-      if (this.x > this.goalx - 8 && this.x < this.goalx + 8) {
-        this.hold++;
-        if (this.hold >= this.required) this.solved = true;
-      } else {
+    if (!this.solved){
+      if (this.x > this.goalx - 8 && this.x < this.goalx + 8){
+        this.hold += 1;
+        if (this.hold >= this.required){
+          this.solved = true;
+        }
+      }
+      else{
         this.hold = 0;
       }
     }
   }
 
-  display() {
+  display(){
     let cx = width / 2;
     let cy = height / 2;
 
@@ -80,7 +77,7 @@ class Slider {
     textSize(28);
     text("🐱", this.x, cy);
 
-    //slider track
+    //slider
     stroke(200);
     strokeWeight(20);
     line(cx - this.sliderwidth / 2 + 7, cy + 100, cx + this.sliderwidth / 2 - 7, cy + 100);
@@ -91,7 +88,6 @@ class Slider {
     fill(0);
     textSize(18);
     text("Catch the mouse for 3 seconds", cx, cy - 100);
-    
     textSize(26);
     if (this.solved) {
       text("Verified", cx, height - 40);
