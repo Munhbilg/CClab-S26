@@ -112,7 +112,7 @@ class Story{
       textAlign(CENTER, CENTER);
       textSize(24);
       textLeading(32);
-      text(this.line, width / 2, height * 0.3, width * 0.75, 140);
+      text(this.line, width / 2, height * 0.45 - 90, width * 0.75, 140);
       this.drawchoices();
 
     } else if (this.ended){
