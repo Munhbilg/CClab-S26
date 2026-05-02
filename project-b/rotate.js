@@ -1,12 +1,17 @@
 class Rotate{
-  constructor(img) {
-    this.img = img; 
+  constructor(img, rotate1, rotate2, wrong){
+    this.img = img;
+    this.rotate1 = rotate1;
+    this.rotate2 = rotate2;
+    this.wrong = wrong;
+
     this.angle = 0;
     this.correctangle = 0;
     this.solved = false;
     this.message = "";
     this.vel = 0;
     this.targetspeed = 0;
+    this.currentsound = 0; // 0 none, 1 left, 2 right
   }
 
   setup(){
@@ -17,13 +22,17 @@ class Rotate{
     this.message = "";
     this.vel = 0;
     this.targetspeed = 0;
+    this.currentsound = 0;
   }
-  draw() {
+
+  draw(){
     background(240);
-    if (!this.solved){
+
+    if(!this.solved){
       this.vel = lerp(this.vel, this.targetspeed, 0.1);
       this.angle += this.vel;
     }
+
     this.display();
   }
 
@@ -60,9 +69,10 @@ class Rotate{
 
     //status
     textSize(24);
-    if (this.solved) {
+    if(this.solved){
       text("Verified", width / 2, height - 40);
-    } else if (this.message !== "") {
+    } 
+    else if(this.message !== ""){
       text(this.message, width / 2, height - 40);
     }
   }
@@ -73,37 +83,66 @@ class Rotate{
     let cx = width/2;
     let y = height/2 + 130;
 
-    if (!this.solved) {
-      if (dist(mouseX, mouseY, lx, y) < 40) {
+    if(!this.solved){
+
+      //left
+      if(dist(mouseX, mouseY, lx, y) < 40){
         this.targetspeed = -1.5;
+
+        if(this.currentsound !== 1){
+          if(this.rotate2) this.rotate2.stop();
+          if(this.rotate1) this.rotate1.loop();
+          this.currentsound = 1;
+        }
       }
-      else if (dist(mouseX, mouseY, rx, y) < 40) {
+
+      //right
+      else if(dist(mouseX, mouseY, rx, y) < 40){
         this.targetspeed = 1.5;
+
+        if(this.currentsound !== 2){
+          if(this.rotate1) this.rotate1.stop();
+          if(this.rotate2) this.rotate2.loop();
+          this.currentsound = 2;
+        }
       }
-      else if (dist(mouseX, mouseY, cx, y) < 50) {
+
+      //check
+      else if(dist(mouseX, mouseY, cx, y) < 50){
+        this.stopsound();
         this.check();
       }
     }
   }
 
+  stopsound(){
+    if(this.rotate1) this.rotate1.stop();
+    if(this.rotate2) this.rotate2.stop();
+    this.currentsound = 0;
+  }
+
   check(){
+    this.stopsound();
     let correct = this.angle % 360;
-    if (correct < 0){
+    if(correct < 0){
       correct += 360;
     }
+
     let diff = abs(correct - this.correctangle);
-    if (diff > 180){
+    if(diff > 180){
       diff = 360 - diff;
     }
-    if (diff < 6){
+
+    if(diff < 6){
       this.solved = true;
       this.message = "";
       this.targetspeed = 0;
     }
-    else {
+    else{
       this.message = "Wrong. Try again";
       this.angle = random(0, 360);
       this.targetspeed = 0;
+      this.wrong.play();
     }
   }
 
@@ -112,5 +151,7 @@ class Rotate{
     this.angle = random(0, 360);
     this.targetspeed = 0;
     this.message = "";
+    this.currentsound = 0;
+    this.stopsound();
   }
 }

@@ -1,16 +1,18 @@
 //Story section after the captchas are complete
 class Story{
-  constructor(){
+  constructor(robot, grantedse, deniedse, video){
+    this.robot = robot;
+    this.grantedse = grantedse;
+    this.deniedse = deniedse;
+    this.video = video;
     this.dialogue = [
       "Verification complete.",
       "Input pattern recognized.",
-      "...",
+      "Hmm... interesting.",
       "You appear to be human.",
       "Not many reach this point.",
-      "...",
       "You did not stop.",
       "You spent ",
-      "..."
     ];
     this.index = 0;
     this.line = "";
@@ -22,6 +24,7 @@ class Story{
     this.choice = 0; //0: none, 1: good, 2: bad
     this.outcome = "";
     this.captchatime = 0;
+    this.currentSound = null;
   }
 
   start(captchatimer){
@@ -32,7 +35,9 @@ class Story{
     this.choosing = false;
     this.ended = false;
     this.choice = 0;
-    this.nextline()
+
+    this.stopSound();
+    this.nextline();
   }
 
   update() {
@@ -44,17 +49,26 @@ class Story{
   }
 
   nextline(){
+    this.stopSound();
+
     //next line
     if (this.index >= this.dialogue.length){
       this.startchoice();
     } else {
       this.line = this.dialogue[this.index];
-      if (this.index == 7){
+
+      //time spent on captchas
+      if (this.index == 6){
         let elapsed = frameCount - this.captchatime;
         let seconds = floor(elapsed / 60);
         let minutes = floor(seconds / 60);
         seconds = seconds % 60;
-        this.line += minutes + " minutes and " + seconds + " seconds";
+        this.line += minutes + " minutes and " + seconds + " seconds doing this captcha.";
+      }
+
+      if(this.robot[this.index]){
+        this.currentSound = this.robot[this.index];
+        this.currentSound.play();
       }
       this.index+=1;
       this.startframe = frameCount;
@@ -62,20 +76,35 @@ class Story{
   }
 
   startchoice(){
+    this.stopSound();
     this.running = false;
     this.choosing = true;
-    this.line = "So tell me... why are you here?";
+    this.line = "But why? why go through all this effort just to see what's inside?";
+    
+    if(this.robot[7]){
+      this.currentSound = this.robot[7];
+      this.currentSound.play();
+    }
   }
 
   draw() {
     if (this.running){
       //dialogue
       background(18, 22, 30);
+      
+      //show camera for "You appear to be human"
+      if(this.index == 4){
+        image(this.video, width / 2, height * 0.45, 640, 480);
+      }
+      
+      fill(18, 22, 30);
+      rect(width / 2, height * 0.45, width * 0.75, 32);
       fill(226);
       textAlign(CENTER, CENTER);
       textSize(24);
       textLeading(32);
       text(this.line, width / 2, height * 0.45, width * 0.75, 160);
+
     } else if (this.choosing){
       //show choice
       background(18, 22, 30);
@@ -85,6 +114,7 @@ class Story{
       textLeading(32);
       text(this.line, width / 2, height * 0.3, width * 0.75, 140);
       this.drawchoices();
+
     } else if (this.ended){
       //show ending
       this.drawEnding();
@@ -137,7 +167,7 @@ class Story{
       fill(255, 80, 80);
       textAlign(CENTER, CENTER);
       textSize(34);
-      text("Access revoked.", width / 2, height * 0.45);
+      text("Access denied.", width / 2, height * 0.45);
       textSize(16);
       fill(200, 120, 120);
       text("You have been blocked for suspicious activity.", width / 2, height * 0.6);
@@ -146,11 +176,10 @@ class Story{
 
   mousePressed(){
     if (this.running){
-      //skip to next line if clicked during dialogue
+      this.stopSound();
       this.nextline();
     }
     else if (this.choosing){
-      //choose between options
       let w = width * 0.28;
       let h = 60;
       let x = width / 2;
@@ -159,20 +188,29 @@ class Story{
       
       //choice 1
       if(mouseX > x - w / 2 && mouseX < x + w / 2 && mouseY > y0 - h / 2 && mouseY < y0 + h / 2){
+        this.stopSound();
         this.choice = 1;
         this.outcome = "granted";
         this.choosing = false;
         this.ended = true;
-        return;
+        this.grantedse.play();
       }
 
       //choice 2
       if (mouseX > x - w / 2 && mouseX < x + w / 2 && mouseY > y1 - h / 2 && mouseY < y1 + h / 2){
+        this.stopSound();
         this.choice = 2;
         this.outcome = "denied";
         this.choosing = false;
         this.ended = true;
+        this.deniedse.play();
       }
+    }
+  }
+
+  stopSound(){
+    if(this.currentSound && this.currentSound.isPlaying()){
+      this.currentSound.stop();
     }
   }
 }
