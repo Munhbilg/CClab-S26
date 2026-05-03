@@ -44,14 +44,15 @@ class Rotate{
     //buttons
     noStroke();
     fill(220);
-    rect(width/2 - 100, height/2 + 130, 60, 40, 5);
-    rect(width/2 + 100, height/2 + 130, 60, 40, 5);
-    rect(width/2, height/2 + 130, 100, 40, 5);
+    rect(width/2 - 80, height/2 + 130, 45, 30, 5);
+    rect(width/2 + 80, height/2 + 130, 45, 30, 5);
+    rect(width/2, height/2 + 130, 60, 30, 5);
     fill(0);
     textAlign(CENTER, CENTER);
     textSize(18);
-    text("⟲", width/2 - 100, height/2 + 130);
-    text("⟳", width/2 + 100, height/2 + 130);
+    text("⟲", width/2 - 80, height/2 + 130);
+    text("⟳", width/2 + 80, height/2 + 130);
+    textSize(14);
     text("Check", width/2, height/2 + 130);
 
     //image
@@ -62,24 +63,25 @@ class Rotate{
     pop();
 
     //instructions
+    noStroke();
     fill(0);
     textSize(18);
-    textAlign(CENTER);
-    text("Rotate the image upright", width / 2, height / 2 - 140);
+    textAlign(CENTER, CENTER);
+    text("Rotate the image upright", width / 2, height / 2 - 120);
 
     //status
     textSize(24);
     if(this.solved){
-      text("Verified", width / 2, height - 40);
+      text("Verified", width / 2, height / 2 + 160);
     } 
     else if(this.message !== ""){
-      text(this.message, width / 2, height - 40);
+      text(this.message, width / 2, height / 2 + 160);
     }
   }
 
   mousePressed(){
-    let lx = width/2 - 100;
-    let rx = width/2 + 100;
+    let lx = width/2 - 80;
+    let rx = width/2 + 80;
     let cx = width/2;
     let y = height/2 + 130;
 

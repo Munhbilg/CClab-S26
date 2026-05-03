@@ -91,6 +91,7 @@ class Story{
     if (this.running){
       //dialogue
       background(18, 22, 30);
+      noStroke();
       //show camera for "You appear to be human"
       if(this.index == 4){
         image(this.video, width / 2, height * 0.45, 640, 480);
@@ -117,7 +118,7 @@ class Story{
 
     } else if (this.ended){
       //show ending
-      this.drawEnding();
+      this.drawending();
     }
   }
 
@@ -148,7 +149,7 @@ class Story{
   }
 
   //ending screen based on choice
-  drawEnding(){
+  drawending(){
     if (this.outcome == "granted"){
       //good ending
       background(12, 28, 48);

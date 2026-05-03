@@ -41,12 +41,18 @@ function setup(){
   let checkbox = new Checkbox(slidese);
   let rotate = new Rotate(rotateimg, rotate1se, rotate2se, errorse);
   let slider = new Slider(catse);
+  let timer = new Timer(errorse);
+  let click = new Click(errorse, correctse);
   captchas.push(checkbox);
   captchas.push(rotate);
   captchas.push(slider);
+  captchas.push(timer);
+  captchas.push(click);
   checkbox.setup();
   rotate.setup();
   slider.setup();
+  timer.setup();
+  click.setup();
 }
 
 function draw(){
@@ -141,6 +147,9 @@ function keyPressed(){
     if(currentstate == "captchas"){
       startloading();
     }
+  }
+  else if(captchas[current].keyPressed){
+    captchas[current].keyPressed();
   }
 }
 
