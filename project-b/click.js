@@ -1,6 +1,7 @@
 class Click{
-  constructor(errorse, correctse){
+  constructor(errorse, dogse){
     this.errorse = errorse;
+    this.dogse = dogse;
     
     this.dogx = 0;
     this.dogy = 0;
@@ -14,9 +15,10 @@ class Click{
   }
 
   setup(){
-    this.setRandomTarget();
-    this.dogx = this.targetx;
-    this.dogy = this.targety;
+    this.dogx = width / 2;
+    this.dogy = height / 2;
+    this.targetx = width / 2;
+    this.targety = height / 2;
     this.clickcount = 0;
     this.solved = false;
     this.lastClickTime = frameCount;
@@ -46,29 +48,25 @@ class Click{
   display(){
     //box
     stroke(100);
+    strokeWeight(1);
     fill(255);
     rectMode(CENTER);
-    rect(width / 2, height / 2, 360, 360, 4);
+    rect(width / 2, height / 2, 360, 300, 4);
 
     //dog
     noStroke();
-    textSize(80);
+    textSize(60);
     textAlign(CENTER, CENTER);
-    text("🐕", this.dogx, this.dogy);
+    text("🐶", this.dogx, this.dogy);
 
     //instructions
     noStroke();
     fill(0);
     textSize(18);
     textAlign(CENTER, CENTER);
-    if(this.solved){
-      text("Good job!", width / 2, height / 2 - 140);
-      textSize(24);
-      text("Verified", width / 2, height - 40);
-    }
-    else{
-      text("Pet the dog " + this.required + " times", width / 2, height / 2 - 140);
-      textSize(24);
+    if(!this.solved){
+      text("Pet the dog " + this.required + " times", width / 2, height / 2 - 120);
+      textSize(18);
       text("Pets: " + this.clickcount + "/" + this.required, width / 2, height - 40);
     }
   }
@@ -79,11 +77,14 @@ class Click{
     //check if clicked dog
     let d = dist(mouseX, mouseY, this.dogx, this.dogy);
     
-    if(d < 50){
+    if(d < 30){
       this.clickcount += 1;
       this.lastClickTime = frameCount;
       this.setRandomTarget();
       this.arrived = false;
+      if(this.dogse){
+        this.dogse.play();
+      }
 
       //success at 10 clicks
       if(this.clickcount >= this.required){
@@ -98,9 +99,10 @@ class Click{
   }
 
   reset(){
-    this.setRandomTarget();
-    this.dogx = this.targetx;
-    this.dogy = this.targety;
+    this.dogx = width / 2;
+    this.dogy = height / 2;
+    this.targetx = width / 2;
+    this.targety = height / 2;
     this.clickcount = 0;
     this.solved = false;
     this.lastClickTime = frameCount;

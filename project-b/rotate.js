@@ -49,10 +49,9 @@ class Rotate{
     rect(width/2, height/2 + 130, 60, 30, 5);
     fill(0);
     textAlign(CENTER, CENTER);
-    textSize(18);
+    textSize(14);
     text("⟲", width/2 - 80, height/2 + 130);
     text("⟳", width/2 + 80, height/2 + 130);
-    textSize(14);
     text("Check", width/2, height/2 + 130);
 
     //image
@@ -70,12 +69,9 @@ class Rotate{
     text("Rotate the image upright", width / 2, height / 2 - 120);
 
     //status
-    textSize(24);
-    if(this.solved){
-      text("Verified", width / 2, height / 2 + 160);
-    } 
-    else if(this.message !== ""){
-      text(this.message, width / 2, height / 2 + 160);
+    textSize(18);
+    if(this.message != ""){
+      text(this.message, width / 2, height - 40);
     }
   }
 

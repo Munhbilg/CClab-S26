@@ -82,6 +82,7 @@ class Slider{
     fill(255, 255, 200);
     rect(cx, cy + 30, 240, 40);
     fill(0);
+    noStroke();
     ellipse(cx + 70, cy, 15, 15);
     rect(cx + 70, cy + 4, 15, 15);
     textSize(18);
@@ -100,11 +101,7 @@ class Slider{
     textSize(18);
     text("Catch the mouse for 3 seconds", cx, cy - 100);
 
-    textSize(26);
-    if(this.solved){
-      text("Verified", cx, height - 40);
-    }
-    else if(this.hold > 0){
+    if(this.hold > 0){
       let s = floor((this.required - this.hold) / 60) + 1;
       text("Catching... " + s, cx, height - 40);
     }

@@ -7,7 +7,7 @@ let loadingstart = 0;
 let story;
 let currentstate = "captchas";
 let rotateimg;
-let slidese, errorse, correctse, rotate1se, rotate2se, catse;
+let slidese, errorse, correctse, rotate1se, rotate2se, catse, dogse, timerse;
 let grantedse, deniedse;
 let video;
 
@@ -20,6 +20,8 @@ function preload(){
   rotate1se = loadSound("assets/rotate1.mp3");
   rotate2se = loadSound("assets/rotate2.mp3");
   catse = loadSound("assets/cat.mp3");
+  dogse = loadSound("assets/dog.mp3");
+  timerse = loadSound("assets/timer.mp3");
   grantedse = loadSound("assets/granted.mp3");
   deniedse = loadSound("assets/denied.mp3");
 
@@ -41,8 +43,8 @@ function setup(){
   let checkbox = new Checkbox(slidese);
   let rotate = new Rotate(rotateimg, rotate1se, rotate2se, errorse);
   let slider = new Slider(catse);
-  let timer = new Timer(errorse);
-  let click = new Click(errorse, correctse);
+  let timer = new Timer(errorse, timerse);
+  let click = new Click(errorse, dogse);
   captchas.push(checkbox);
   captchas.push(rotate);
   captchas.push(slider);
