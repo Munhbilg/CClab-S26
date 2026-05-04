@@ -1,7 +1,6 @@
 class Slider{
   constructor(purr){
     this.purrsound = purr;
-
     this.sliderwidth = 220;
     this.x = 0;
     this.targetx = 0; 
@@ -86,6 +85,7 @@ class Slider{
     ellipse(cx + 70, cy, 15, 15);
     rect(cx + 70, cy + 4, 15, 15);
     textSize(18);
+    textAlign(CENTER, CENTER);
     text("🐭", this.goalx, cy + 3);
     textSize(28);
     text("🐱", this.x, cy);

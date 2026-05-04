@@ -1,7 +1,6 @@
 class Checkbox{
   constructor(slidesound){
     this.slidesound = slidesound;
-
     this.boxx = 0;
     this.boxy = 0;
     this.velx = 0;

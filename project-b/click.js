@@ -2,7 +2,6 @@ class Click{
   constructor(errorse, dogse){
     this.errorse = errorse;
     this.dogse = dogse;
-    
     this.dogx = 0;
     this.dogy = 0;
     this.targetx = 0;

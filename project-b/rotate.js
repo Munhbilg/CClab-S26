@@ -4,7 +4,6 @@ class Rotate{
     this.rotate1 = rotate1;
     this.rotate2 = rotate2;
     this.wrong = wrong;
-
     this.angle = 0;
     this.correctangle = 0;
     this.solved = false;
