@@ -79,7 +79,7 @@ class Story{
     this.stopSound();
     this.running = false;
     this.choosing = true;
-    this.line = "But why? why go through all this effort just to see what's inside?";
+    this.line = "But why? why go through all this effort just to see what is inside?";
     
     if(this.robot[7]){
       this.currentSound = this.robot[7];

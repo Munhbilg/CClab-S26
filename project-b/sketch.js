@@ -13,7 +13,6 @@ let video;
 
 function preload(){
   rotateimg = loadImage("assets/rotate.png");
-
   slidese = loadSound("assets/slide.mp3");
   errorse = loadSound("assets/error.mp3");
   correctse = loadSound("assets/correct.mp3");
@@ -65,9 +64,7 @@ function draw(){
     fill(0);
     textSize(14);
     textAlign(LEFT, TOP);
-    text("Press S to skip", 20, height - 20);
-
-    // FIX: prevent sound spam + multiple triggers
+    text("Press s to skip", 20, height - 20);
     if(captchas[current].solved && currentstate == "captchas"){
       correctse.play();
       captchas[current].solved = false;
