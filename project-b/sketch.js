@@ -61,6 +61,12 @@ function draw(){
   if(currentstate == "captchas"){
     captchas[current].draw();
 
+    noStroke();
+    fill(0);
+    textSize(14);
+    textAlign(LEFT, TOP);
+    text("Press S to skip", 20, height - 20);
+
     // FIX: prevent sound spam + multiple triggers
     if(captchas[current].solved && currentstate == "captchas"){
       correctse.play();

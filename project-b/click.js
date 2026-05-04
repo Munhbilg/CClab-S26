@@ -55,7 +55,7 @@ class Click{
 
     //dog
     noStroke();
-    textSize(60);
+    textSize(50);
     textAlign(CENTER, CENTER);
     text("🐶", this.dogx, this.dogy);
 
@@ -66,7 +66,7 @@ class Click{
     textAlign(CENTER, CENTER);
     if(!this.solved){
       text("Pet the dog " + this.required + " times", width / 2, height / 2 - 120);
-      textSize(18);
+      textSize(24);
       text("Pets: " + this.clickcount + "/" + this.required, width / 2, height - 40);
     }
   }
@@ -77,7 +77,7 @@ class Click{
     //check if clicked dog
     let d = dist(mouseX, mouseY, this.dogx, this.dogy);
     
-    if(d < 30){
+    if(d < 25){
       this.clickcount += 1;
       this.lastClickTime = frameCount;
       this.setRandomTarget();
