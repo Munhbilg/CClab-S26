@@ -86,7 +86,7 @@ class Rotate{
       if(dist(mouseX, mouseY, lx, y) < 40){
         this.targetspeed = -1.5;
 
-        if(this.currentsound !== 1){
+        if(this.currentsound != 1){
           if(this.rotate2) this.rotate2.stop();
           if(this.rotate1) this.rotate1.loop();
           this.currentsound = 1;
@@ -97,7 +97,7 @@ class Rotate{
       else if(dist(mouseX, mouseY, rx, y) < 40){
         this.targetspeed = 1.5;
 
-        if(this.currentsound !== 2){
+        if(this.currentsound != 2){
           if(this.rotate1) this.rotate1.stop();
           if(this.rotate2) this.rotate2.loop();
           this.currentsound = 2;
