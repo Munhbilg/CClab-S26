@@ -114,7 +114,7 @@ class Story{
       this.drawchoices();
 
     } else if (this.ended == true){
-      //show ending
+
       this.drawending();
     }
   }
@@ -131,7 +131,7 @@ class Story{
     fill(210);
     textSize(20);
     textAlign(CENTER, CENTER);
-    text("I belong here.", width / 2, height * 0.48);
+    text("This is where I belong.", width / 2, height * 0.48);
 
     //choice 2 box
     stroke(100);
