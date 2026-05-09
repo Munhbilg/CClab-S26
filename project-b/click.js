@@ -57,8 +57,6 @@ class Click{
     textSize(50);
     textAlign(CENTER, CENTER);
     text("🐶", this.dogx, this.dogy);
-
-    //instructions
     noStroke();
     fill(0);
     textSize(18);
@@ -71,8 +69,6 @@ class Click{
   }
 
   mousePressed(){
-    if(this.solved) return;
-
     //check if clicked dog
     let d = dist(mouseX, mouseY, this.dogx, this.dogy);
     
@@ -81,11 +77,7 @@ class Click{
       this.lastClickTime = frameCount;
       this.setRandomTarget();
       this.arrived = false;
-      if(this.dogse){
-        this.dogse.play();
-      }
-
-      //success at 10 clicks
+      this.dogse.play();
       if(this.clickcount >= this.required){
         this.solved = true;
       }

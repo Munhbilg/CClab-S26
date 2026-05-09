@@ -46,16 +46,9 @@ class Timer{
     }
 
     //result
-    if(this.showresult){
+    if(this.showresult == true){
       textSize(24);
-      if(this.solved){
-        fill(0, 150, 0);
-        text("Perfect!", width / 2, height / 2 - 20);
-        fill(0);
-        textSize(18);
-        text(this.message, width / 2, height / 2 + 20);
-      }
-      else{
+      if (this.solved == false){
         fill(200, 0, 0);
         text("Wrong", width / 2, height / 2 - 20);
         fill(0);
@@ -83,7 +76,7 @@ class Timer{
   }
 
   keyPressed(){
-    if(key === ' '){
+    if(key == ' '){
       if(!this.started){
         this.started = true;
         this.startframe = frameCount;
@@ -97,7 +90,7 @@ class Timer{
       else if(!this.showresult){
         this.check();
       }
-      else if(this.showresult){
+      else if(this.showresult == true){
         this.reset();
       }
     }
@@ -118,7 +111,7 @@ class Timer{
       else if(!this.showresult){
         this.check();
       }
-      else if(this.showresult){
+      else if(this.showresult == true){
         this.reset();
       }
     }
@@ -131,9 +124,8 @@ class Timer{
     let diff = abs(seconds - target);
 
     //result
-    this.showresult = true;
-    if(this.startse){
-      this.startse.stop();
+    this.showresult = true;{
+    this.startse.stop();
     }
     let second = floor(seconds);
     let centisecond = floor((seconds % 1) * 100);
@@ -158,8 +150,7 @@ class Timer{
     this.solved = false;
     this.message = "";
     this.showresult = false;
-    if(this.startse){
-      this.startse.stop();
-    }
+    this.startse.stop();
+    
   }
 }

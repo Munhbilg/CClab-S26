@@ -41,7 +41,7 @@ class Story{
   }
 
   update() {
-    if (this.running){
+    if (this.running == true){
       if (frameCount - this.startframe > this.waitframe){
         this.nextline();
       }
@@ -65,11 +65,8 @@ class Story{
         seconds = seconds % 60;
         this.line += minutes + " minutes and " + seconds + " seconds doing this captcha.";
       }
-
-      if(this.robot[this.index]){
-        this.currentSound = this.robot[this.index];
-        this.currentSound.play();
-      }
+      this.currentSound = this.robot[this.index];
+      this.currentSound.play();
       this.index+=1;
       this.startframe = frameCount;
     }
@@ -88,7 +85,7 @@ class Story{
   }
 
   draw() {
-    if (this.running){
+    if (this.running == true){
       //dialogue
       background(18, 22, 30);
       noStroke();
@@ -106,7 +103,7 @@ class Story{
       textLeading(32);
       text(this.line, width / 2, height * 0.45, width * 0.75, 160);
 
-    } else if (this.choosing){
+    } else if (this.choosing == true){
       //show choice
       background(18, 22, 30);
       fill(226);
@@ -116,7 +113,7 @@ class Story{
       text(this.line, width / 2, height * 0.45 - 90, width * 0.75, 140);
       this.drawchoices();
 
-    } else if (this.ended){
+    } else if (this.ended == true){
       //show ending
       this.drawending();
     }
@@ -176,11 +173,11 @@ class Story{
   }
 
   mousePressed(){
-    if (this.running){
+    if (this.running == true){
       this.stopSound();
       this.nextline();
     }
-    else if (this.choosing){
+    else if(this.choosing == true){
       let w = width * 0.28;
       let h = 60;
       let x = width / 2;

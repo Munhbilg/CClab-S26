@@ -38,7 +38,7 @@ class Checkbox{
       this.vely += this.accy;
 
       //play once when entering range
-      if(!this.sliding && this.slidesound){
+      if(!this.sliding){
         this.slidesound.play();
       }
 
@@ -67,7 +67,7 @@ class Checkbox{
     rect(this.boxx - 150, this.boxy, 30, 30, 4);
 
     //checkmark
-    if(this.ticked){
+    if(this.ticked == true){
       strokeWeight(4);
       line(this.boxx - 158, this.boxy, this.boxx - 152, this.boxy + 7);
       line(this.boxx - 152, this.boxy + 7, this.boxx - 142, this.boxy - 7);

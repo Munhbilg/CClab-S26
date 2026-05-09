@@ -21,9 +21,8 @@ class Slider{
   }
 
   reset(){
-    this.setup();
-    if(this.purrsound){
-      this.purrsound.stop();
+    this.setup();{
+    this.purrsound.stop();
     }
   }
 
@@ -60,7 +59,7 @@ class Slider{
         }
       }else{
         this.hold = 0;
-        if(this.ontarget){
+        if(this.ontarget == true){
           this.purrsound.stop();
         }
         this.ontarget = false;

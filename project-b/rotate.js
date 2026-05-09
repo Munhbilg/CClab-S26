@@ -87,8 +87,8 @@ class Rotate{
         this.targetspeed = -1.5;
 
         if(this.currentsound != 1){
-          if(this.rotate2) this.rotate2.stop();
-          if(this.rotate1) this.rotate1.loop();
+          this.rotate2.stop();
+          this.rotate1.loop();
           this.currentsound = 1;
         }
       }
@@ -98,8 +98,8 @@ class Rotate{
         this.targetspeed = 1.5;
 
         if(this.currentsound != 2){
-          if(this.rotate1) this.rotate1.stop();
-          if(this.rotate2) this.rotate2.loop();
+          this.rotate1.stop();
+          this.rotate2.loop();
           this.currentsound = 2;
         }
       }
@@ -113,8 +113,8 @@ class Rotate{
   }
 
   stopsound(){
-    if(this.rotate1) this.rotate1.stop();
-    if(this.rotate2) this.rotate2.stop();
+    this.rotate1.stop();
+    this.rotate2.stop();
     this.currentsound = 0;
   }
 
